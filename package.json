@@ -38,15 +38,16 @@
   },
   "lint-staged": {
     "src/**/*.{css,less,scss}": [
-      "npm run lint:style",
+      "stylelint --fix",
       "git add"
     ],
     "src/**/*.{json,html,css,less,scss,md,yaml,yml}": [
-      "npm run lint:prettier",
+      "prettier -c --write",
       "git add"
     ],
-    "src/**/*.{js,jsx}": [
-      "yarn run lint:js",
+    "src/**/*.{ts,tsx,js,jsx}": [
+      "eslint --fix --ext",
+      "prettier -c --write",
       "import-sort --write",
       "git add"
     ]
