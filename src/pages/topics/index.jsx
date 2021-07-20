@@ -1,94 +1,32 @@
-import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { Layout, List, Menu } from 'antd';
-import { push } from 'connected-react-router';
+import { fetchAsync } from '@/models/topic';
 
-const { Header, Content, Footer } = Layout;
+import styles from './index.module.less';
 
-class TopicPage extends PureComponent {
-  static defaultProps = {
-    title: '话题列表',
+export default function TopicPage() {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const topic = useSelector((state) => state.topic);
+
+  useEffect(() => {
+    dispatch(fetchAsync());
+  }, []);
+
+  const handleGo = (id) => {
+    history.push(`/comments/${id}`);
   };
 
-  componentDidMount() {
-    const { fetch } = this.props;
-    fetch({});
-  }
-
-  handleGo = () => {
-    const { go } = this.props;
-    go();
-  };
-
-  render() {
-    const { topic, fetch, title } = this.props;
-    return (
-      <Layout className="layout">
-        <Header>
-          <Menu
-            theme="dark"
-            mode="horizontal"
-            defaultSelectedKeys={['1']}
-            style={{ lineHeight: '64px' }}
-          >
-            <Menu.Item key="1">话题列表</Menu.Item>
-            <Menu.Item key="2" onClick={this.handleGo}>
-              评论列表
-            </Menu.Item>
-          </Menu>
-        </Header>
-        <Content style={{ padding: '0 50px' }}>
-          <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
-            <List
-              pagination={{
-                onChange: page => {
-                  fetch({
-                    current: page,
-                    pageSize: 10,
-                  });
-                },
-                total: topic.data.pagination.total,
-                pageSize: topic.data.pagination.pageSize,
-              }}
-              itemLayout="horizontal"
-              dataSource={topic.data.list}
-              renderItem={item => (
-                <List.Item>
-                  <List.Item.Meta
-                    title={
-                      <span>
-                        {item.title} <Link to={`/comments/${item.id}`}>查看评论</Link>
-                      </span>
-                    }
-                    description={item.body}
-                  />
-                </List.Item>
-              )}
-            />
-          </div>
-        </Content>
-        <Footer style={{ textAlign: 'center' }}>{title}</Footer>
-      </Layout>
-    );
-  }
+  return (
+    <div className={styles.container}>
+      {topic.data.list.map((x) => (
+        <div className={styles.card} key={x.key} onClick={() => handleGo(x.id)}>
+          <div className={styles.title}>{x.title}</div>
+          <div className={styles.body}>{x.body}</div>
+        </div>
+      ))}
+    </div>
+  );
 }
-
-const mapState = state => ({
-  topic: state.topic,
-  loading: state.loading.effects.topic.fetchAsync,
-});
-
-const mapDispatch = dispatch => ({
-  fetch: params => dispatch.topic.fetchAsync(params),
-  add: params => dispatch.topic.addAsync(params),
-  update: params => dispatch.topic.updateAsync(params),
-  delete: id => dispatch.topic.deleteAsync(id),
-  go: () => dispatch(push('/comments')),
-});
-
-export default connect(
-  mapState,
-  mapDispatch
-)(TopicPage);

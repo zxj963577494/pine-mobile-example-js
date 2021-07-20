@@ -1,15 +1,16 @@
 # react-boilerplate
 
+移动端H5适配
 ## :star: 特性
 
+- 更新 webpack 5
 - 支持 ES6+ 源码，编译生成生产代码
 - 集成代码风格校验 (eslint)
 - 集成单元测试环境（jest+enzyme）
-- 集成测试覆盖率（istanbul）
 - 集成 git commit 校验（lint-staged）
 - 集成代码格式化（prettier)
 - 集成后台服务（express)
-- 集成代码热替换（react-hot-loader）
+- 集成代码热替换（react-refresh）React v16.9.0+
 - 集成 mock（umi-mock)
 - 集成 API 代理（http-proxy-middleware)
 - 集成 docker

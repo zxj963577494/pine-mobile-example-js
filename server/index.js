@@ -1,7 +1,7 @@
 /* eslint consistent-return:0 import/order:0 */
 const express = require('express');
 const mock = require('umi-mock');
-const proxy = require('http-proxy-middleware');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 const logger = require('./logger');
 
 const argv = require('./argv');
@@ -21,7 +21,7 @@ const proxyOptions = {
 };
 
 if (argv.proxy) {
-  app.use('/api', proxy(proxyOptions));
+  app.use('/api', createProxyMiddleware(proxyOptions));
 } else if (argv.mock) {
   app.use(
     mock.createMiddleware({

@@ -2,8 +2,9 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const CompressionPlugin = require('compression-webpack-plugin');
-const { HashedModuleIdsPlugin } = require('webpack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = require('./webpack.config.base')({
   mode: 'production',
@@ -34,9 +35,8 @@ module.exports = require('./webpack.config.base')({
           },
         },
         parallel: true,
-        cache: true,
-        sourceMap: true,
       }),
+      new CssMinimizerPlugin(),
     ],
     nodeEnv: 'production',
     sideEffects: true,
@@ -55,6 +55,13 @@ module.exports = require('./webpack.config.base')({
           },
         },
       },
+    },
+  },
+
+  cache: {
+    type: 'filesystem',
+    buildDependencies: {
+      config: [__filename],
     },
   },
 
@@ -77,24 +84,12 @@ module.exports = require('./webpack.config.base')({
       inject: true,
     }),
 
-    /**
-     * 打包成gzip格式
-     */
-    new CompressionPlugin({
-      algorithm: 'gzip',
-      test: /\.js$|\.css$|\.html$/,
-      threshold: 10240,
-      minRatio: 0.8,
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].[contenthash:8].css', // 输出的 CSS 文件的名称
+      chunkFilename: 'css/[name].[contenthash:8].chunk.css', // 非入口的 css chunk 文件名称
+      ignoreOrder: true, // 忽略有关顺序冲突的警告
     }),
 
-    new HashedModuleIdsPlugin({
-      hashFunction: 'sha256',
-      hashDigest: 'hex',
-      hashDigestLength: 8,
-    }),
+    new CleanWebpackPlugin(),
   ],
-
-  performance: {
-    assetFilter: assetFilename => !/(\.map$)|(^(main\.|favicon\.))/.test(assetFilename),
-  },
 });

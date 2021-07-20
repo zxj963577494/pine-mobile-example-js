@@ -1,9 +1,10 @@
-import { createModel } from '@rematch/core';
+import { createSlice } from '@reduxjs/toolkit';
 
 import { commentService } from '@/services';
 
-export const comment = createModel({
-  state: {
+const commentSlice = createSlice({
+  name: 'comment',
+  initialState: {
     data: {
       list: [],
       pagination: {
@@ -14,13 +15,19 @@ export const comment = createModel({
       current: {},
     },
   },
+  effects: (dispatch) => ({
+    async fetchAsync(payload) {
+      const response = await commentService.query(payload);
+      dispatch.comment.save(response);
+    },
+  }),
   reducers: {
     save(state, payload) {
       return {
         ...state,
         data: {
           ...state.data,
-          list: payload.map(data => ({
+          list: payload.map((data) => ({
             ...data,
             key: data.id,
           })),
@@ -28,10 +35,6 @@ export const comment = createModel({
       };
     },
   },
-  effects: dispatch => ({
-    async fetchAsync(payload) {
-      const response = await commentService.query(payload);
-      dispatch.comment.save(response);
-    },
-  }),
 });
+
+export default commentSlice.reducer;

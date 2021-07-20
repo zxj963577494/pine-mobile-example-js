@@ -1,28 +1,18 @@
-import { applyMiddleware, compose } from 'redux';
+import { applyMiddleware, compose, createStore, combineReducers } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-import { init } from '@rematch/core';
-import { connectRouter, routerMiddleware } from 'connected-react-router';
-import { createBrowserHistory } from 'history';
-import createLoadingPlugin from '@rematch/loading';
+import * as reducers from '@/models';
 
-import * as models from '@/models';
+const composedEnhancer = composeWithDevTools(applyMiddleware(thunkMiddleware));
 
-const history = createBrowserHistory();
+const createRootReducer = () =>
+  combineReducers({
+    ...reducers,
+  });
 
-const composeEnhancers = compose;
-const middlewares = [routerMiddleware(history)];
-const enhancers = [applyMiddleware(...middlewares)];
-const reducers = { router: connectRouter(history) };
+export default function configureStore(preloadedState) {
+  const store = createStore(createRootReducer(), preloadedState, compose(composedEnhancer));
 
-const loadingPlugin = createLoadingPlugin({});
-
-const store = init({
-  models,
-  plugins: [loadingPlugin],
-  redux: {
-    reducers,
-    enhancers: [composeEnhancers(...enhancers)],
-  },
-});
-
-export { history, store };
+  return store;
+}

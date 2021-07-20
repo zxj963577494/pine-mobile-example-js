@@ -1,9 +1,17 @@
 import React from 'react';
-import { hot } from 'react-hot-loader/root';
-import { Switch } from 'react-router-dom';
-import { renderRoutes } from 'react-router-config';
-import { routes } from '@/utils/routes';
+import { Route, HashRouter as Router, Switch } from 'react-router-dom';
 
-const App = () => <Switch>{renderRoutes(routes)}</Switch>;
+import TopicPage from '@/pages/topics';
+import CommentPage from '@/pages/comments';
 
-export default hot(App);
+const App = () => (
+  <Router>
+    <Switch>
+      <Route path="/" component={TopicPage} exact />
+      <Route exact path="/topics" component={TopicPage} />
+      <Route exact path="/comments/:id" component={CommentPage} />
+    </Switch>
+  </Router>
+);
+
+export default App;

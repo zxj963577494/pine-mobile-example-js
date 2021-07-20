@@ -1,9 +1,10 @@
-import { createModel } from '@rematch/core';
+import { createSlice } from '@reduxjs/toolkit';
 
 import { topicService } from '@/services';
 
-export const topic = createModel({
-  state: {
+const topicSlice = createSlice({
+  name: 'topic',
+  initialState: {
     data: {
       list: [],
       pagination: {
@@ -15,12 +16,12 @@ export const topic = createModel({
     },
   },
   reducers: {
-    save(state, payload) {
+    save(state, action) {
       return {
         ...state,
         data: {
           ...state.data,
-          list: payload.map(data => ({
+          list: action.payload.map((data) => ({
             ...data,
             key: data.id,
           })),
@@ -28,21 +29,40 @@ export const topic = createModel({
       };
     },
   },
-  effects: dispatch => ({
-    async fetchAsync(payload) {
-      const response = await topicService.query(payload);
-      dispatch.topic.save(response);
-    },
-    async addAsync(payload) {
-      await topicService.post(payload);
-    },
-    async updateAsync(payload) {
-      const { id, ...params } = payload;
-      await topicService.patch(id, params);
-    },
-    async deleteAsync(payload) {
-      const { id } = payload;
-      await topicService.post(id);
-    },
-  }),
 });
+
+export function fetchAsync() {
+  return async (dispatch) => {
+    const response = await topicService.query();
+    dispatch({ type: 'topic/save', payload: response });
+  };
+}
+
+export function fetchCurrentAsync(payload) {
+  return async () => {
+    const response = await topicService.queryCurrent(payload);
+    return response;
+  };
+}
+
+export function addAsync(payload) {
+  return async () => {
+    await topicService.post(payload);
+  };
+}
+
+export async function updateAsync(payload) {
+  return async () => {
+    const { id, ...params } = payload;
+    await topicService.patch(id, params);
+  };
+}
+
+export async function deleteAsync(payload) {
+  return async () => {
+    const { id } = payload;
+    await topicService.remove(id);
+  };
+}
+
+export default topicSlice.reducer;
