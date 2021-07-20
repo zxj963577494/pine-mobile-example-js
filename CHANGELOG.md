@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.1.0 (2021-07-20)
+
+
+### Features
+
+* 初始化项目 ([f7532ca](https://github.com/zxj963577494/pine-mobile-example-js/commit/f7532ca98fd975d35d745b129f4649099a5cecab))
+* 更新案例 ([f28b737](https://github.com/zxj963577494/pine-mobile-example-js/commit/f28b73733619ddf5543f4ec2c1579622dc2e8420))
+
 ### [1.1.2](https://github.com/zxj963577494/pine-basic-js/compare/v1.1.1...v1.1.2) (2021-07-20)
 
 
