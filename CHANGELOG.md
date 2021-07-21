@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/zxj963577494/pine-mobile-example-js/compare/v1.1.0...v1.1.1) (2021-07-21)
+
+
+### Features
+
+* 更新eslint配置 ([4a525b2](https://github.com/zxj963577494/pine-mobile-example-js/commit/4a525b2b3b76ce0d9c8259c965c88fb54919b6d0))
+
 ## 1.1.0 (2021-07-20)
 
 
