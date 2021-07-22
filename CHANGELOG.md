@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.2](https://github.com/zxj963577494/pine-mobile-example-js/compare/v1.1.1...v1.1.2) (2021-07-22)
+
+
+### Bug Fixes
+
+* 更新配置 ([749fe97](https://github.com/zxj963577494/pine-mobile-example-js/commit/749fe97687f301e6e322c3265945a8ccff170d4d))
+
 ### [1.1.1](https://github.com/zxj963577494/pine-mobile-example-js/compare/v1.1.0...v1.1.1) (2021-07-21)
 
 
