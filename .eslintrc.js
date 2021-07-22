@@ -1,7 +1,13 @@
 module.exports = {
   parser: 'babel-eslint',
-  extends: ['airbnb', 'prettier', 'plugin:jest/recommended'],
-  plugins: ['prettier', 'react', 'react-hooks', 'jsx-a11y'],
+  extends: [
+    'airbnb-base',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+    'plugin:compat/recommended',
+    'plugin:jest/recommended',
+    'plugin:prettier/recommended',
+  ],
   env: {
     browser: true,
     node: true,
@@ -128,6 +134,9 @@ module.exports = {
     },
   ],
   settings: {
+    react: {
+      version: 'detect',
+    },
     'import/resolver': { node: { extensions: ['.js', '.jsx', '.ts', '.tsx'] } },
     polyfills: ['fetch', 'Promise', 'promises', 'url', 'object-assign'],
   },
